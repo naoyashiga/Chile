@@ -15,6 +15,7 @@
 		9A6588A31A2549DC005204AC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6588A21A2549DC005204AC /* Images.xcassets */; };
 		9A6588A61A2549DC005204AC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A6588A41A2549DC005204AC /* LaunchScreen.xib */; };
 		9A6588B21A2549DD005204AC /* ChileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6588B11A2549DD005204AC /* ChileTests.swift */; };
+		9A6588BC1A2551B4005204AC /* cat.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A6588BB1A2551B4005204AC /* cat.jpeg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		9A6588AB1A2549DD005204AC /* ChileTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChileTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A6588B01A2549DD005204AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A6588B11A2549DD005204AC /* ChileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChileTests.swift; sourceTree = "<group>"; };
+		9A6588BB1A2551B4005204AC /* cat.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat.jpeg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 		9A6588941A2549DC005204AC /* Chile */ = {
 			isa = PBXGroup;
 			children = (
+				9A6588BB1A2551B4005204AC /* cat.jpeg */,
 				9A6588971A2549DC005204AC /* AppDelegate.swift */,
 				9A6588991A2549DC005204AC /* GameScene.sks */,
 				9A65889B1A2549DC005204AC /* GameScene.swift */,
@@ -198,6 +201,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A6588BC1A2551B4005204AC /* cat.jpeg in Resources */,
 				9A6588A61A2549DC005204AC /* LaunchScreen.xib in Resources */,
 				9A6588A31A2549DC005204AC /* Images.xcassets in Resources */,
 				9A65889A1A2549DC005204AC /* GameScene.sks in Resources */,
