@@ -19,10 +19,23 @@ class GameScene: SKScene {
         /* Called when a touch begins */
         
         for touch: AnyObject in touches {
+            self.physicsWorld.gravity = CGVectorMake(0, 0)
             let location = touch.locationInNode(self)
-            
-//            addChile(location)
+            let touchedNode = self.nodeAtPoint(location)
+            touchedNode.position = location
         }
+    }
+    
+    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+        for touch: AnyObject in touches {
+            let location = touch.locationInNode(self)
+            let touchedNode = self.nodeAtPoint(location)
+            touchedNode.position = location
+        }
+    }
+    
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+            self.physicsWorld.gravity = CGVectorMake(0, -1)
     }
     
     func addChile(){
