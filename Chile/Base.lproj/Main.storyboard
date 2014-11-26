@@ -20,7 +20,10 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W1K-h2-4gf">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <items>
-                                    <navigationItem title="Chile" id="zzc-Z4-xAu"/>
+                                    <navigationItem title="Title" id="xmh-vW-glF">
+                                        <barButtonItem key="leftBarButtonItem" title="Reset" id="2NT-Mt-Oa5"/>
+                                        <barButtonItem key="rightBarButtonItem" title="Share" id="Xxs-Iy-qCM"/>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                         </subviews>
