@@ -10,13 +10,8 @@ import SpriteKit
 
 class GameScene: SKScene {
     override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World!";
-        myLabel.fontSize = 65;
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
+        addWall()
         
-        self.addChild(myLabel)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -25,20 +20,35 @@ class GameScene: SKScene {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             
-            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-            
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
-            sprite.position = location
-            
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-            
-            sprite.runAction(SKAction.repeatActionForever(action))
-            
-            self.addChild(sprite)
+            addSquare(location)
         }
     }
+    
+    func addSquare(location:CGPoint){
+        var square:SKSpriteNode = SKSpriteNode(
+            color: UIColor.redColor(), size: CGSizeMake(20, 20))
+        
+        square.position = location
+        square.physicsBody = SKPhysicsBody(rectangleOfSize: square.size)
+        
+        self.addChild(square)
+    }
    
+    func addWall(){
+        var wall:SKSpriteNode = SKSpriteNode(
+            color: UIColor.blackColor(), size: CGSizeMake(self.frame.size.width, 40))
+        
+        wall.position = CGPoint(x:CGRectGetMidX(self.frame), y:0)
+        wall.physicsBody = SKPhysicsBody(rectangleOfSize: wall.size)
+        
+        //重力を無視
+        wall.physicsBody?.affectedByGravity = false
+        
+        //ぶつかっても動かない
+        wall.physicsBody?.dynamic = false
+        
+        self.addChild(wall)
+    }
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }
