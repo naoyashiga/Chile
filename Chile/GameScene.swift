@@ -14,51 +14,16 @@ class GameScene: SKScene {
         self.size = view.bounds.size
         self.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
         
-//        addBox()
+        addBg()
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        /* Called when a touch begins */
-        
-        for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
-            let touchedNode = self.nodeAtPoint(location)
-            
-            if touchedNode.name == "box"{
-                touchedNode.position = location
-            }
-        }
+    func addBg(){
+        let background = SKSpriteNode(imageNamed: "bg.jpg")
+        background.anchorPoint = CGPoint(x: 0, y: 0)
+        background.size = self.size
+        background.zPosition = -2
+        self.addChild(background)
     }
-    
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
-        for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
-            let touchedNode = self.nodeAtPoint(location)
-            if touchedNode.name == "box"{
-                touchedNode.position = location
-            }
-        }
-    }
-    
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-    }
-    
-//    func addBox(){
-//        // 四角を作成
-//        var box = SKSpriteNode(
-//            color: UIColor.greenColor(),
-//            size: CGSizeMake(80, 80)
-//        )
-//        let size:CGFloat = 100
-//        box.size = CGSizeMake(size, size)
-//        box.position = CGPoint(x: CGRectGetMidX(self.frame), y: self.frame.size.height - size)
-//        
-//        box.physicsBody = SKPhysicsBody(rectangleOfSize: box.size)
-//        box.name = "box"
-//        
-//        self.addChild(box)
-//    }
-    
     func addChile(){
         let chileImg = SKSpriteNode(imageNamed: "chile.png")
         let size:CGFloat = 30
