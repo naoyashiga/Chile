@@ -9,6 +9,7 @@
 import SpriteKit
 
 class GameScene: SKScene {
+    var isCreated:Bool = true
     override func didMoveToView(view: SKView) {
         self.size = view.bounds.size
         self.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
@@ -20,23 +21,29 @@ class GameScene: SKScene {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             
-            addChile(location)
+//            addChile(location)
         }
     }
     
-    func addChile(location:CGPoint){
+    func addChile(){
         let chileImg = SKSpriteNode(imageNamed: "cat.jpeg")
         let size:CGFloat = 30
         chileImg.size = CGSizeMake(size, size)
-        chileImg.position = location
+        chileImg.position = CGPoint(x: CGRectGetMidX(self.frame), y: self.frame.size.height - size)
         
-        chileImg.position = location
         chileImg.physicsBody = SKPhysicsBody(rectangleOfSize: chileImg.size)
         
         self.addChild(chileImg)
     }
    
     override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
+        if Int(currentTime) % 3 == 0{
+            if isCreated{
+                addChile()
+                isCreated = false
+            }
+        }else{
+            isCreated = true
+        }
     }
 }
