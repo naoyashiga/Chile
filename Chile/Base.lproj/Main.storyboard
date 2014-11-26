@@ -21,8 +21,16 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <items>
                                     <navigationItem title="Title" id="xmh-vW-glF">
-                                        <barButtonItem key="leftBarButtonItem" title="Reset" id="2NT-Mt-Oa5"/>
-                                        <barButtonItem key="rightBarButtonItem" title="Share" id="Xxs-Iy-qCM"/>
+                                        <barButtonItem key="leftBarButtonItem" title="Reset" id="2NT-Mt-Oa5">
+                                            <connections>
+                                                <action selector="resetBtn:" destination="BV1-FR-VrT" id="gcN-RK-6i8"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Share" id="Xxs-Iy-qCM">
+                                            <connections>
+                                                <action selector="shareBtn:" destination="BV1-FR-VrT" id="ZWe-Ec-urp"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>

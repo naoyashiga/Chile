@@ -66,4 +66,31 @@ class GameViewController: UIViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
+    
+    @IBAction func resetBtn(sender: UIBarButtonItem) {
+        let alert:UIAlertController = UIAlertController(title:"Reset Really?",
+            message: "All chiles will disapear.",
+            preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let cancelAction:UIAlertAction = UIAlertAction(title: "Cancel",
+            style: UIAlertActionStyle.Cancel,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                println("Cancel")
+        })
+        let defaultAction:UIAlertAction = UIAlertAction(title: "OK",
+            style: UIAlertActionStyle.Default,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                println("OK")
+        })
+        alert.addAction(cancelAction)
+        alert.addAction(defaultAction)
+        
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func shareBtn(sender: UIBarButtonItem) {
+        
+    }
 }
