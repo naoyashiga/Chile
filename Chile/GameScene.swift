@@ -21,7 +21,6 @@ class GameScene: SKScene {
         /* Called when a touch begins */
         
         for touch: AnyObject in touches {
-//            self.physicsWorld.gravity = CGVectorMake(0, 0)
             let location = touch.locationInNode(self)
             let touchedNode = self.nodeAtPoint(location)
             
@@ -61,9 +60,10 @@ class GameScene: SKScene {
 //    }
     
     func addChile(){
-        let chileImg = SKSpriteNode(imageNamed: "cat.jpeg")
+        let chileImg = SKSpriteNode(imageNamed: "chile.png")
         let size:CGFloat = 30
-        chileImg.size = CGSizeMake(size, size)
+        let num:CGFloat = 5
+        chileImg.size = CGSizeMake(275 / num, 183 / num)
         chileImg.position = CGPoint(x: CGRectGetMidX(self.frame), y: self.frame.size.height - size)
         
         chileImg.physicsBody = SKPhysicsBody(rectangleOfSize: chileImg.size)
