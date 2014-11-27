@@ -30,6 +30,7 @@ class GameScene: SKScene {
         let num:CGFloat = 5
         chileImg.size = CGSizeMake(275 / num, 183 / num)
         chileImg.position = CGPoint(x: CGRectGetMidX(self.frame), y: self.frame.size.height - size)
+        chileImg.zRotation = CGFloat(arc4random_uniform(360))
         
         chileImg.physicsBody = SKPhysicsBody(rectangleOfSize: chileImg.size)
         
