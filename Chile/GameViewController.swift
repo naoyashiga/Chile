@@ -26,6 +26,9 @@ extension SKNode {
 }
 
 class GameViewController: UIViewController {
+    var chileScene:GameScene?
+    
+    @IBOutlet weak var bgImage: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +44,8 @@ class GameViewController: UIViewController {
             
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .AspectFill
+            
+            chileScene = scene
             
             skView.presentScene(scene)
         }
@@ -83,6 +88,10 @@ class GameViewController: UIViewController {
             handler:{
                 (action:UIAlertAction!) -> Void in
                 println("OK")
+                
+                self.chileScene?.removeAllChildren()
+                self.chileScene?.addBg()
+                
         })
         alert.addAction(cancelAction)
         alert.addAction(defaultAction)

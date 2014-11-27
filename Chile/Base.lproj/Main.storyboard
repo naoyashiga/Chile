@@ -34,14 +34,22 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8U8-ky-aIi">
+                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="8U8-ky-aIi" secondAttribute="trailing" constant="-16" id="CUJ-MA-VcH"/>
                             <constraint firstItem="W1K-h2-4gf" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leadingMargin" constant="-16" id="Hsu-8D-hZQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="W1K-h2-4gf" secondAttribute="trailing" constant="-16" id="MzC-3t-cc2"/>
+                            <constraint firstItem="8U8-ky-aIi" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leadingMargin" constant="-16" id="nzP-Xb-chW"/>
                             <constraint firstItem="W1K-h2-4gf" firstAttribute="top" secondItem="3se-qz-xqx" secondAttribute="topMargin" id="wfI-d8-xQM"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="bgImage" destination="8U8-ky-aIi" id="vZr-6f-DWq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>

@@ -36,6 +36,11 @@ class GameScene: SKScene {
         
         self.addChild(chileImg)
     }
+    
+    func removeNode(){
+        println("aa")
+        self.removeAllChildren()
+    }
    
     override func update(currentTime: CFTimeInterval) {
         if Int(currentTime) % 3 == 0{
