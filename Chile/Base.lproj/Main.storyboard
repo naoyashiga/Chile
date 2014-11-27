@@ -20,7 +20,7 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W1K-h2-4gf">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <items>
-                                    <navigationItem title="Title" id="xmh-vW-glF">
+                                    <navigationItem title="Chile" id="xmh-vW-glF">
                                         <barButtonItem key="leftBarButtonItem" title="Reset" id="2NT-Mt-Oa5">
                                             <connections>
                                                 <action selector="resetBtn:" destination="BV1-FR-VrT" id="gcN-RK-6i8"/>
