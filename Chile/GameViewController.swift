@@ -88,10 +88,7 @@ class GameViewController: UIViewController {
             handler:{
                 (action:UIAlertAction!) -> Void in
                 println("OK")
-                
                 self.chileScene?.removeAllChildren()
-                self.chileScene?.addBg()
-                
         })
         alert.addAction(cancelAction)
         alert.addAction(defaultAction)
