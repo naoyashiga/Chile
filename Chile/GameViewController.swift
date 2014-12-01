@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import Social
 
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
@@ -73,8 +74,8 @@ class GameViewController: UIViewController {
     }
     
     @IBAction func resetBtn(sender: UIBarButtonItem) {
-        let alert:UIAlertController = UIAlertController(title:"Reset Really?",
-            message: "All chiles will disapear.",
+        let alert:UIAlertController = UIAlertController(title:"Reset?",
+            message: "All chiles will disappear.",
             preferredStyle: UIAlertControllerStyle.Alert)
         
         let cancelAction:UIAlertAction = UIAlertAction(title: "Cancel",
@@ -88,6 +89,7 @@ class GameViewController: UIViewController {
             handler:{
                 (action:UIAlertAction!) -> Void in
                 println("OK")
+                //すべてのチリを削除
                 self.chileScene?.removeAllChildren()
         })
         alert.addAction(cancelAction)
@@ -97,6 +99,68 @@ class GameViewController: UIViewController {
     }
     
     @IBAction func shareBtn(sender: UIBarButtonItem) {
+        //UIActionSheet
+        let actionSheet:UIAlertController = UIAlertController(title:"Share",
+            message: "Share screen capture image.",
+            preferredStyle: UIAlertControllerStyle.ActionSheet)
         
+        let cancelAction:UIAlertAction = UIAlertAction(title: "Cancel",
+            style: UIAlertActionStyle.Cancel,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                println("Cancel")
+        })
+        
+        //Facebook
+        let fbAction:UIAlertAction = UIAlertAction(title: "Facebook",
+            style: UIAlertActionStyle.Default,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                var vc:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+                self.shareVC(vc)
+        })
+        
+        //Twitter
+        let twitterAction:UIAlertAction = UIAlertAction(title: "Twitter",
+            style: UIAlertActionStyle.Default,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                var vc:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+                self.shareVC(vc)
+        })
+        
+        //LINE
+        let lineAction:UIAlertAction = UIAlertAction(title: "LINE",
+            style: UIAlertActionStyle.Default,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                
+                var pasteboard:UIPasteboard = UIPasteboard.generalPasteboard()
+                //投稿画像を設定
+//                pasteboard.image = meshiPhoto
+                
+                var imageURL: NSURL! = NSURL(string: "line://msg/image/" + pasteboard.name)
+                
+                if (UIApplication.sharedApplication().canOpenURL(imageURL)) {
+                    UIApplication.sharedApplication().openURL(imageURL)
+                }
+        })
+        
+        actionSheet.addAction(cancelAction)
+        actionSheet.addAction(fbAction)
+        actionSheet.addAction(twitterAction)
+        actionSheet.addAction(lineAction)
+        
+        presentViewController(actionSheet, animated: true, completion: nil)
+        
+    }
+    
+    func shareVC(vc:SLComposeViewController){
+        var shareText:String = "#Chile"
+        //テキストを設定
+        vc.setInitialText(shareText)
+        //投稿画像を設定
+//        vc.addImage(meshiPhoto)
+        self.presentViewController(vc,animated:true,completion:nil)
     }
 }
