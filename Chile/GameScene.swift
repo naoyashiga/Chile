@@ -37,7 +37,9 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         if Int(currentTime) % 2 == 0{
             if isCreated{
-                addChile()
+                for var i = 0;i < 2;i++ {
+                    addChile()
+                }
                 isCreated = false
             }
         }else{

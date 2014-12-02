@@ -137,7 +137,7 @@ class GameViewController: UIViewController {
                 
                 var pasteboard:UIPasteboard = UIPasteboard.generalPasteboard()
                 //投稿画像を設定
-//                pasteboard.image = meshiPhoto
+                pasteboard.image = self.createScreenCapture()
                 
                 var imageURL: NSURL! = NSURL(string: "line://msg/image/" + pasteboard.name)
                 
@@ -152,15 +152,26 @@ class GameViewController: UIViewController {
         actionSheet.addAction(lineAction)
         
         presentViewController(actionSheet, animated: true, completion: nil)
-        
     }
     
     func shareVC(vc:SLComposeViewController){
         var shareText:String = "#Chile"
         //テキストを設定
         vc.setInitialText(shareText)
+        
         //投稿画像を設定
-//        vc.addImage(meshiPhoto)
+        vc.addImage(createScreenCapture())
+        
         self.presentViewController(vc,animated:true,completion:nil)
+    }
+    
+    func createScreenCapture() -> UIImage{
+        //キャプチャを作成
+        UIGraphicsBeginImageContextWithOptions(UIScreen.mainScreen().bounds.size, false, 0);
+        self.view.drawViewHierarchyInRect(view.bounds, afterScreenUpdates: true)
+        let image:UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return image
     }
 }
