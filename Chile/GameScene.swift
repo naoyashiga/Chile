@@ -12,9 +12,31 @@ class GameScene: SKScene {
     var isCreated:Bool = true
     override func didMoveToView(view: SKView) {
         self.size = view.bounds.size
-        self.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
+//        self.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
+        self.physicsBody = SKPhysicsBody(
+            edgeFromPoint:CGPoint(x: CGRectGetMidX(self.frame) - 40, y: 0),
+            toPoint: CGPoint(x: CGRectGetMidX(self.frame) + 40, y: 0))
         self.backgroundColor = UIColor.blackColor()
         
+        
+        self.view?.showsNodeCount = true
+        self.view?.showsFPS = true
+        
+        addGround()
+    }
+    
+    func addGround(){
+        var ground = SKSpriteNode(
+            color: UIColor.greenColor(),
+            size: CGSizeMake(80, 80)
+        )
+        
+        let size:CGFloat = 30
+        let num:CGFloat = 10
+        ground.position = CGPoint(x: CGRectGetMidX(self.frame), y: size)
+        ground.physicsBody = SKPhysicsBody(rectangleOfSize: ground.size)
+        
+        self.addChild(ground)
     }
     
     func addChile(){
@@ -37,7 +59,7 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         if Int(currentTime) % 2 == 0{
             if isCreated{
-                for var i = 0;i < 2;i++ {
+                for _ in 1...10 {
                     addChile()
                 }
                 isCreated = false
