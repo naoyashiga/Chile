@@ -107,24 +107,26 @@ class GameScene: SKScene {
         
 //        scoreLabel.text = "Chile:" + String(self.children.count - 1)
         for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
+            var location = touch.locationInNode(self)
             chiles.addObject(self.addChile(location))
         }
     }
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         var chile = chiles.lastObject as Chile
+        
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            
             chile.position = location
         }
     }
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
         println("end")
-        var chile = chiles.lastObject as Chile
-        chile.physicsBody = SKPhysicsBody(rectangleOfSize: chile.size)
+        for chile:AnyObject in chiles {
+            var c = chile as Chile
+            c.physicsBody = SKPhysicsBody(rectangleOfSize: chile.size)
+        }
         scoreLabel.text = "Chile:" + String(self.children.count - 2)
     }
     
@@ -135,8 +137,13 @@ class GameScene: SKScene {
         //ビュー座標からシーン座標に変換
 //        tapPositionOneFingerTap = convertPointFromView(tapPositionOneFingerTap)
 //        addChile(tapPositionOneFingerTap)
-        var chile = chiles.lastObject as Chile
-        chile.physicsBody = SKPhysicsBody(rectangleOfSize: chile.size)
+        for chile:AnyObject in chiles {
+            var c = chile as Chile
+            c.physicsBody = SKPhysicsBody(rectangleOfSize: chile.size)
+            
+        }
+//        var chile = chiles.lastObject as Chile
+//        chile.physicsBody = SKPhysicsBody(rectangleOfSize: chile.size)
         scoreLabel.text = "Chile:" + String(self.children.count - 2)
     }
 }
