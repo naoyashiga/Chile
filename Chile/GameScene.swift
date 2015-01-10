@@ -47,20 +47,16 @@ class GameScene: SKScene {
         self.addChild(ground)
     }
     
-    func addChile(pos:CGPoint) -> SKSpriteNode{
-        let chileImg = SKSpriteNode(imageNamed: "chile.png")
-        let size:CGFloat = 30
-        let num:CGFloat = 10
-        chileImg.size = CGSizeMake(275 / num, 183 / num)
-//        chileImg.position = CGPoint(x: CGRectGetMidX(self.frame), y: self.frame.size.height - size)
-        chileImg.position = CGPoint(x: pos.x, y: pos.y)
+    func addChile(pos:CGPoint) -> Chile{
+        var chile = Chile()
+        chile.position = CGPoint(x: pos.x, y: pos.y)
 //        chileImg.zRotation = CGFloat(arc4random_uniform(360))
         
 //        chileImg.physicsBody = SKPhysicsBody(rectangleOfSize: chileImg.size)
         
-        self.addChild(chileImg)
+        self.addChild(chile)
         
-        return chileImg
+        return chile
     }
     
     func removeNode(){
@@ -83,37 +79,34 @@ class GameScene: SKScene {
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         println("start")
         for touch: AnyObject in touches {
-            
             let location = touch.locationInNode(self)
-            
-            
             chiles.addObject(self.addChile(location))
         }
     }
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
-        var chile = chiles.lastObject as SKSpriteNode
+        var chile = chiles.lastObject as Chile
         for touch: AnyObject in touches {
-            
             let location = touch.locationInNode(self)
-            
             
             chile.position = location
         }
     }
+    
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
         println("end")
-        var chile = chiles.lastObject as SKSpriteNode
+        var chile = chiles.lastObject as Chile
         chile.physicsBody = SKPhysicsBody(rectangleOfSize: chile.size)
     }
+    
     func tapGesture(sender: UITapGestureRecognizer){
         println("tap")
-        var tapPositionOneFingerTap = sender.locationInView(self.view)
+//        var tapPositionOneFingerTap = sender.locationInView(self.view)
         
         //ビュー座標からシーン座標に変換
-        tapPositionOneFingerTap = convertPointFromView(tapPositionOneFingerTap)
+//        tapPositionOneFingerTap = convertPointFromView(tapPositionOneFingerTap)
 //        addChile(tapPositionOneFingerTap)
-        var chile = chiles.lastObject as SKSpriteNode
+        var chile = chiles.lastObject as Chile
         chile.physicsBody = SKPhysicsBody(rectangleOfSize: chile.size)
     }
 }
