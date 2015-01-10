@@ -11,7 +11,7 @@ import SpriteKit
 
 class Chile: SKSpriteNode {
     convenience override init(){
-        let num:CGFloat = 10
+        let num:CGFloat = 9
         let texture = SKTexture(imageNamed: "chile.png")
         let size = CGSizeMake(275 / num, 183 / num)
         

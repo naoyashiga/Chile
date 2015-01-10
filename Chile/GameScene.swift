@@ -11,13 +11,16 @@ import SpriteKit
 class GameScene: SKScene {
     var isCreated:Bool = true
     var chiles:NSMutableArray!
+    var scoreLabel:SKLabelNode!
     override func didMoveToView(view: SKView) {
         chiles = NSMutableArray()
         self.size = view.bounds.size
 //        self.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
+//        self.physicsWorld.gravity = CGVectorMake(0, 3.0)
+        
         self.physicsBody = SKPhysicsBody(
-            edgeFromPoint:CGPoint(x: CGRectGetMidX(self.frame) - 40, y: 0),
-            toPoint: CGPoint(x: CGRectGetMidX(self.frame) + 40, y: 0))
+            edgeFromPoint:CGPoint(x: CGRectGetMidX(self.frame) - 100, y: 10),
+            toPoint: CGPoint(x: CGRectGetMidX(self.frame) + 100, y: 10))
         self.backgroundColor = UIColor.blackColor()
         
         
@@ -31,18 +34,31 @@ class GameScene: SKScene {
         self.view?.addGestureRecognizer(myTap)
         
         addGround()
+        addScore()
+    }
+    
+    func addScore(){
+        scoreLabel = SKLabelNode()
+        
+        scoreLabel.text = "Chile:0"
+        scoreLabel.fontSize = 25
+        scoreLabel.fontColor = UIColor.whiteColor()
+        scoreLabel.position = convertPointFromView(CGPoint(x: CGRectGetMidX(self.frame), y: 100))
+        
+        scoreLabel.fontName = "Apple-SD-GothicNeo-ExtraBold"
+        self.addChild(scoreLabel)
     }
     
     func addGround(){
         var ground = SKSpriteNode(
             color: UIColor.greenColor(),
-            size: CGSizeMake(80, 80)
+            size: CGSizeMake(200, 10)
         )
         
-        let size:CGFloat = 30
+        let size:CGFloat = 10
         let num:CGFloat = 10
         ground.position = CGPoint(x: CGRectGetMidX(self.frame), y: size)
-        ground.physicsBody = SKPhysicsBody(rectangleOfSize: ground.size)
+//        ground.physicsBody = SKPhysicsBody(rectangleOfSize: ground.size)
         
         self.addChild(ground)
     }
@@ -64,6 +80,15 @@ class GameScene: SKScene {
     }
    
     override func update(currentTime: CFTimeInterval) {
+        for child in self.children {
+            //画面外
+            if child.position.y < 0 {
+                child.removeFromParent()
+                scoreLabel.text = "Chile:" + String(self.children.count)
+                println("out")
+            }
+        }
+        
 //        if Int(currentTime) % 2 == 0{
 //            if isCreated{
 //                for _ in 1...10 {
@@ -78,6 +103,9 @@ class GameScene: SKScene {
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         println("start")
+        println(self.children.count)
+        
+//        scoreLabel.text = "Chile:" + String(self.children.count - 1)
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             chiles.addObject(self.addChile(location))
@@ -97,6 +125,7 @@ class GameScene: SKScene {
         println("end")
         var chile = chiles.lastObject as Chile
         chile.physicsBody = SKPhysicsBody(rectangleOfSize: chile.size)
+        scoreLabel.text = "Chile:" + String(self.children.count - 2)
     }
     
     func tapGesture(sender: UITapGestureRecognizer){
@@ -108,5 +137,6 @@ class GameScene: SKScene {
 //        addChile(tapPositionOneFingerTap)
         var chile = chiles.lastObject as Chile
         chile.physicsBody = SKPhysicsBody(rectangleOfSize: chile.size)
+        scoreLabel.text = "Chile:" + String(self.children.count - 2)
     }
 }
