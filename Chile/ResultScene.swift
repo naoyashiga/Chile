@@ -63,11 +63,6 @@ class ResultScene: SKScene {
             
             if touchedName.name == "retry" {
                 delegate_escape?.sceneEscape(self)
-//                let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 1)
-//                let skView:SKView = self.view as SKView!
-//                let newScene = GameScene(size: self.size)
-//                newScene.scaleMode = SKSceneScaleMode.AspectFill
-//                skView.presentScene(newScene, transition: transition)
             }
         }
         

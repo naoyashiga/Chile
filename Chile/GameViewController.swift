@@ -26,7 +26,6 @@ extension SKNode {
 }
 
 class GameViewController: UIViewController, SceneEscapeProtocol {
-    var chileScene:GameScene?
     var skView:SKView?
     
     override func viewDidLoad() {
@@ -36,21 +35,22 @@ class GameViewController: UIViewController, SceneEscapeProtocol {
         goGame()
     }
 
-    override func shouldAutorotate() -> Bool {
-        return true
-    }
     
     func goGame(){
+//        var transition:SKTransition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 0.5)
         var gameScene = GameScene(size: skView!.bounds.size)
         gameScene.delegate_escape = self
         gameScene.scaleMode = SKSceneScaleMode.AspectFill
+//        self.skView!.presentScene(gameScene, transition: transition)
         self.skView!.presentScene(gameScene)
     }
     
     func goResult(){
+//        var transition:SKTransition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 0.5)
         var resultScene = ResultScene(size: skView!.bounds.size)
         resultScene.delegate_escape = self
         resultScene.scaleMode = SKSceneScaleMode.AspectFill
+//        self.skView!.presentScene(resultScene, transition: transition)
         self.skView!.presentScene(resultScene)
     }
     
@@ -63,6 +63,10 @@ class GameViewController: UIViewController, SceneEscapeProtocol {
             println("game")
             goGame()
         }
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        return true
     }
     
     override func supportedInterfaceOrientations() -> Int {

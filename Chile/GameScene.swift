@@ -29,10 +29,10 @@ class GameScene: SKScene {
         self.view?.showsFPS = true
         
         // タップを認識.
-        let myTap = UITapGestureRecognizer(target: self, action: "tapGesture:")
-        myTap.numberOfTapsRequired = 1
-        myTap.numberOfTouchesRequired = 1
-        self.view?.addGestureRecognizer(myTap)
+//        let myTap = UITapGestureRecognizer(target: self, action: "tapGesture:")
+//        myTap.numberOfTapsRequired = 1
+//        myTap.numberOfTouchesRequired = 1
+//        self.view?.addGestureRecognizer(myTap)
         
         addGround()
         addScore()
