@@ -91,8 +91,6 @@ class GameScene: SKScene {
                 let skView:SKView = self.view as SKView!
                 let newScene = ResultScene(size: self.size)
                 newScene.scaleMode = SKSceneScaleMode.AspectFill
-//                self.scene.view.presentScene(newScene, transition: transition)
-//                skView.presentScene(newScene, transition: transition)
                 skView.presentScene(newScene, transition: transition)
             }
         }

@@ -39,6 +39,7 @@ class ResultScene: SKScene {
         retryLabel.position = convertPointFromView(CGPoint(x: CGRectGetMidX(self.frame), y: 300))
         
         retryLabel.fontName = "Marker Felt Thin"
+        retryLabel.name = "retry"
         self.addChild(retryLabel)
     }
     
@@ -52,5 +53,21 @@ class ResultScene: SKScene {
         
         rankingLabel.fontName = "Marker Felt Thin"
         self.addChild(rankingLabel)
+    }
+    
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        for touch: AnyObject in touches {
+            var location = touch.locationInNode(self)
+            var touchedName = self.nodeAtPoint(location)
+            
+            if touchedName.name == "retry" {
+                let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 1)
+                let skView:SKView = self.view as SKView!
+                let newScene = GameScene(size: self.size)
+                newScene.scaleMode = SKSceneScaleMode.AspectFill
+                skView.presentScene(newScene, transition: transition)
+            }
+        }
+        
     }
 }
