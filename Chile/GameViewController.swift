@@ -84,7 +84,7 @@ class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDel
         self.view.addSubview(adB)
         var request = GADRequest()
         //test
-        request.testDevices = [ GAD_SIMULATOR_ID ];
+//        request.testDevices = [ GAD_SIMULATOR_ID ];
         adB.loadRequest(request)
     }
     

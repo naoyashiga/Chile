@@ -13,7 +13,7 @@ class GameScene: SKScene {
     var chiles:NSMutableArray!
     var scoreLabel:SKLabelNode!
     override func didMoveToView(view: SKView) {
-        let wallHeight:CGFloat = 99.0
+        let wallHeight:CGFloat = 63.0
         chiles = NSMutableArray()
         self.size = view.bounds.size
 //        self.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
@@ -25,8 +25,8 @@ class GameScene: SKScene {
         self.backgroundColor = UIColor.blackColor()
         
         
-        self.view?.showsNodeCount = true
-        self.view?.showsFPS = true
+//        self.view?.showsNodeCount = true
+//        self.view?.showsFPS = true
         
         // タップを認識.
 //        let myTap = UITapGestureRecognizer(target: self, action: "tapGesture:")
@@ -56,7 +56,7 @@ class GameScene: SKScene {
             size: CGSizeMake(200, 50)
         )
         
-        let size:CGFloat = 75
+        let size:CGFloat = 40
         let num:CGFloat = 10
         ground.position = CGPoint(x: CGRectGetMidX(self.frame), y: size)
 //        ground.physicsBody = SKPhysicsBody(rectangleOfSize: ground.size)
@@ -102,6 +102,7 @@ class GameScene: SKScene {
         
         for touch: AnyObject in touches {
             var location = touch.locationInNode(self)
+            
             chiles.addObject(self.addChile(location))
         }
     }
