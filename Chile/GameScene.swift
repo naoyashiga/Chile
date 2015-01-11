@@ -75,18 +75,20 @@ class GameScene: SKScene {
         for child in self.children {
             //画面外
             if child.position.y < 0 {
-                child.removeFromParent()
-                scoreLabel.text = String(self.children.count)
                 println("out")
+                var chileCount = self.children.count - 2
                 let ud = NSUserDefaults.standardUserDefaults()
                 
+                child.removeFromParent()
+                scoreLabel.text = String(chileCount)
+                
                 //ベストスコア更新
-                if self.children.count > ud.integerForKey("bestScore") {
-                    ud.setInteger(self.children.count, forKey: "bestScore")
+                if chileCount > ud.integerForKey("bestScore") {
+                    ud.setInteger(chileCount, forKey: "bestScore")
                 }
                 
                 //今回のスコア
-                ud.setInteger(self.children.count, forKey: "currentScore")
+                ud.setInteger(chileCount, forKey: "currentScore")
                 
                 delegate_escape?.sceneEscape(self)
             }

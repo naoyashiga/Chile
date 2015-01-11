@@ -65,8 +65,9 @@ class ResultScene: SKScene {
         rankingLabel.fontSize = 60
         rankingLabel.fontColor = UIColor.whiteColor()
         rankingLabel.position = convertPointFromView(CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) + 150))
-        
         rankingLabel.fontName = "Marker Felt Thin"
+        rankingLabel.name = "ranking"
+        
         self.addChild(rankingLabel)
     }
     
@@ -77,6 +78,8 @@ class ResultScene: SKScene {
             
             if touchedName.name == "retry" {
                 delegate_escape?.sceneEscape(self)
+            }else if touchedName.name == "ranking" {
+                
             }
         }
         
