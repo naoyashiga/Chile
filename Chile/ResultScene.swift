@@ -8,9 +8,12 @@
 
 import UIKit
 import spriteKit
+import GameKit
 
 class ResultScene: SKScene {
     var delegate_escape: SceneEscapeProtocol?
+    var delegate_gameCenter: GameCenterProtocol?
+    
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor.blackColor()
         
@@ -71,6 +74,8 @@ class ResultScene: SKScene {
         self.addChild(rankingLabel)
     }
     
+    
+    
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             var location = touch.locationInNode(self)
@@ -79,7 +84,9 @@ class ResultScene: SKScene {
             if touchedName.name == "retry" {
                 delegate_escape?.sceneEscape(self)
             }else if touchedName.name == "ranking" {
-                
+                println("ggg")
+                //ランキング表示
+                delegate_gameCenter?.showLeaderboard()
             }
         }
         

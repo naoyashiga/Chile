@@ -26,7 +26,7 @@ extension SKNode {
     }
 }
 
-class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDelegate, GKGameCenterControllerDelegate{
+class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDelegate, GKGameCenterControllerDelegate, GameCenterProtocol{
     var skView:SKView?
     var gameCenterEnabled: Bool = false
     var gcDefaultLeaderBoard = String()
@@ -101,6 +101,7 @@ class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDel
 //        var transition:SKTransition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 0.5)
         var resultScene = ResultScene(size: skView!.bounds.size)
         resultScene.delegate_escape = self
+        resultScene.delegate_gameCenter = self
         resultScene.scaleMode = SKSceneScaleMode.AspectFill
 //        self.skView!.presentScene(resultScene, transition: transition)
         self.skView!.presentScene(resultScene)
@@ -120,6 +121,37 @@ class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDel
     func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!) {
         
         gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func showLeaderboard(){
+        println("iii")
+        //スコア送信
+        submitScore()
+        //スコア表示
+        var gcVC: GKGameCenterViewController = GKGameCenterViewController()
+        gcVC.gameCenterDelegate = self
+        gcVC.viewState = GKGameCenterViewControllerState.Leaderboards
+        gcVC.leaderboardIdentifier = "ChileScore"
+        self.presentViewController(gcVC, animated: true, completion: nil)
+    }
+    
+    func submitScore(){
+        let ud = NSUserDefaults.standardUserDefaults()
+        var leaderboardID = "ChileScore"
+        var sScore = GKScore(leaderboardIdentifier: leaderboardID)
+        var currentScore = ud.integerForKey("currentScore")
+        sScore.value = Int64(currentScore)
+        
+        let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
+        
+        GKScore.reportScores([sScore], withCompletionHandler: { (error: NSError!) -> Void in
+            if error != nil {
+                println(error.localizedDescription)
+            } else {
+                println("Score submitted")
+                
+            }
+        })
     }
     
     override func shouldAutorotate() -> Bool {
