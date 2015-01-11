@@ -25,7 +25,7 @@ extension SKNode {
     }
 }
 
-class GameViewController: UIViewController, SceneEscapeProtocol {
+class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDelegate {
     var skView:SKView?
     
     override func viewDidLoad() {
@@ -37,9 +37,26 @@ class GameViewController: UIViewController, SceneEscapeProtocol {
         
         skView = self.view as? SKView
         skView!.ignoresSiblingOrder = true
+        settingAd()
         goGame()
     }
 
+    func settingAd(){
+        var origin = CGPointMake(0.0,
+            self.view.frame.size.height -
+                CGSizeFromGADAdSize(kGADAdSizeBanner).height); // place at bottom of view
+        
+        var size = GADAdSizeFullWidthPortraitWithHeight(50)
+        var adB = GADBannerView(adSize: size, origin: origin)
+        adB.adUnitID = "ca-app-pub-9360978553412745/9042363511"
+        adB.delegate = self
+        adB.rootViewController = self
+        self.view.addSubview(adB)
+        var request = GADRequest()
+        //test
+        request.testDevices = [ GAD_SIMULATOR_ID ];
+        adB.loadRequest(request)
+    }
     
     func goGame(){
 //        var transition:SKTransition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 0.5)

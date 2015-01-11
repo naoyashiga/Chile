@@ -13,14 +13,15 @@ class GameScene: SKScene {
     var chiles:NSMutableArray!
     var scoreLabel:SKLabelNode!
     override func didMoveToView(view: SKView) {
+        let wallHeight:CGFloat = 103.0
         chiles = NSMutableArray()
         self.size = view.bounds.size
 //        self.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
 //        self.physicsWorld.gravity = CGVectorMake(0, 3.0)
         
         self.physicsBody = SKPhysicsBody(
-            edgeFromPoint:CGPoint(x: CGRectGetMidX(self.frame) - 100, y: 10),
-            toPoint: CGPoint(x: CGRectGetMidX(self.frame) + 100, y: 10))
+            edgeFromPoint:CGPoint(x: CGRectGetMidX(self.frame) - 100, y: wallHeight),
+            toPoint: CGPoint(x: CGRectGetMidX(self.frame) + 100, y: wallHeight))
         self.backgroundColor = UIColor.blackColor()
         
         
@@ -52,10 +53,10 @@ class GameScene: SKScene {
     func addGround(){
         var ground = SKSpriteNode(
             color: UIColor.greenColor(),
-            size: CGSizeMake(200, 10)
+            size: CGSizeMake(200, 50)
         )
         
-        let size:CGFloat = 10
+        let size:CGFloat = 100
         let num:CGFloat = 10
         ground.position = CGPoint(x: CGRectGetMidX(self.frame), y: size)
 //        ground.physicsBody = SKPhysicsBody(rectangleOfSize: ground.size)
@@ -74,7 +75,7 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         for child in self.children {
             //画面外
-            if child.position.y < 0 {
+            if child.frame.midY < 0 {
                 println("out")
                 var chileCount = self.children.count - 2
                 let ud = NSUserDefaults.standardUserDefaults()
