@@ -73,31 +73,6 @@ class GameViewController: UIViewController {
         return true
     }
     
-    @IBAction func resetBtn(sender: UIBarButtonItem) {
-        let alert:UIAlertController = UIAlertController(title:"Reset?",
-            message: "All chiles will disappear.",
-            preferredStyle: UIAlertControllerStyle.Alert)
-        
-        let cancelAction:UIAlertAction = UIAlertAction(title: "Cancel",
-            style: UIAlertActionStyle.Cancel,
-            handler:{
-                (action:UIAlertAction!) -> Void in
-                println("Cancel")
-        })
-        let defaultAction:UIAlertAction = UIAlertAction(title: "OK",
-            style: UIAlertActionStyle.Default,
-            handler:{
-                (action:UIAlertAction!) -> Void in
-                println("OK")
-                //すべてのチリを削除
-                self.chileScene?.removeAllChildren()
-        })
-        alert.addAction(cancelAction)
-        alert.addAction(defaultAction)
-        
-        presentViewController(alert, animated: true, completion: nil)
-    }
-    
     @IBAction func shareBtn(sender: UIBarButtonItem) {
         //UIActionSheet
         let actionSheet:UIAlertController = UIAlertController(title:"Share",
