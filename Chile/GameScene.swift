@@ -10,7 +10,6 @@ import SpriteKit
 
 class GameScene: SKScene {
     var delegate_escape: SceneEscapeProtocol?
-    var isCreated:Bool = true
     var chiles:NSMutableArray!
     var scoreLabel:SKLabelNode!
     override func didMoveToView(view: SKView) {
@@ -67,19 +66,11 @@ class GameScene: SKScene {
     func addChile(pos:CGPoint) -> Chile{
         var chile = Chile()
         chile.position = CGPoint(x: pos.x, y: pos.y)
-//        chileImg.zRotation = CGFloat(arc4random_uniform(360))
-        
-//        chileImg.physicsBody = SKPhysicsBody(rectangleOfSize: chileImg.size)
-        
         self.addChild(chile)
         
         return chile
     }
     
-    func removeNode(){
-        self.removeAllChildren()
-    }
-   
     override func update(currentTime: CFTimeInterval) {
         for child in self.children {
             //画面外
@@ -87,33 +78,25 @@ class GameScene: SKScene {
                 child.removeFromParent()
                 scoreLabel.text = String(self.children.count)
                 println("out")
+                let ud = NSUserDefaults.standardUserDefaults()
+                
+                //ベストスコア更新
+                if self.children.count > ud.integerForKey("bestScore") {
+                    ud.setInteger(self.children.count, forKey: "bestScore")
+                }
+                
+                //今回のスコア
+                ud.setInteger(self.children.count, forKey: "currentScore")
                 
                 delegate_escape?.sceneEscape(self)
-//                let transition = SKTransition.revealWithDirection(SKTransitionDirection.Down, duration: 1)
-//                let skView:SKView = self.view as SKView!
-//                let newScene = ResultScene(size: self.size)
-//                newScene.scaleMode = SKSceneScaleMode.AspectFill
-//                skView.presentScene(newScene, transition: transition)
             }
         }
-        
-//        if Int(currentTime) % 2 == 0{
-//            if isCreated{
-//                for _ in 1...10 {
-//                    addChile()
-//                }
-//                isCreated = false
-//            }
-//        }else{
-//            isCreated = true
-//        }
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         println("start")
         println(self.children.count)
         
-//        scoreLabel.text = "Chile:" + String(self.children.count - 1)
         for touch: AnyObject in touches {
             var location = touch.locationInNode(self)
             chiles.addObject(self.addChile(location))

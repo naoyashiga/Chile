@@ -30,6 +30,11 @@ class GameViewController: UIViewController, SceneEscapeProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let ud = NSUserDefaults.standardUserDefaults()
+        if(ud.objectForKey("bestScore") == nil){
+            ud.setObject(0, forKey: "bestScore")
+        }
+        
         skView = self.view as? SKView
         skView!.ignoresSiblingOrder = true
         goGame()
