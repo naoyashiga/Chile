@@ -40,12 +40,12 @@ class GameScene: SKScene {
     func addScore(){
         scoreLabel = SKLabelNode()
         
-        scoreLabel.text = "Chile:0"
-        scoreLabel.fontSize = 25
+        scoreLabel.text = "0"
+        scoreLabel.fontSize = 100
         scoreLabel.fontColor = UIColor.whiteColor()
-        scoreLabel.position = convertPointFromView(CGPoint(x: CGRectGetMidX(self.frame), y: 100))
+        scoreLabel.position = convertPointFromView(CGPoint(x: CGRectGetMidX(self.frame), y: 200))
         
-        scoreLabel.fontName = "Apple-SD-GothicNeo-ExtraBold"
+        scoreLabel.fontName = "Marker Felt Thin"
         self.addChild(scoreLabel)
     }
     
@@ -84,8 +84,16 @@ class GameScene: SKScene {
             //画面外
             if child.position.y < 0 {
                 child.removeFromParent()
-                scoreLabel.text = "Chile:" + String(self.children.count)
+                scoreLabel.text = String(self.children.count)
                 println("out")
+                
+                let transition = SKTransition.revealWithDirection(SKTransitionDirection.Down, duration: 1)
+                let skView:SKView = self.view as SKView!
+                let newScene = ResultScene(size: self.size)
+                newScene.scaleMode = SKSceneScaleMode.AspectFill
+//                self.scene.view.presentScene(newScene, transition: transition)
+//                skView.presentScene(newScene, transition: transition)
+                skView.presentScene(newScene, transition: transition)
             }
         }
         
@@ -127,7 +135,7 @@ class GameScene: SKScene {
             var c = chile as Chile
             c.physicsBody = SKPhysicsBody(rectangleOfSize: chile.size)
         }
-        scoreLabel.text = "Chile:" + String(self.children.count - 2)
+        scoreLabel.text = String(self.children.count - 2)
     }
     
     func tapGesture(sender: UITapGestureRecognizer){
@@ -144,6 +152,6 @@ class GameScene: SKScene {
         }
 //        var chile = chiles.lastObject as Chile
 //        chile.physicsBody = SKPhysicsBody(rectangleOfSize: chile.size)
-        scoreLabel.text = "Chile:" + String(self.children.count - 2)
+        scoreLabel.text = String(self.children.count - 2)
     }
 }
