@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import GameKit
 
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
@@ -25,8 +26,10 @@ extension SKNode {
     }
 }
 
-class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDelegate {
+class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDelegate, GKGameCenterControllerDelegate{
     var skView:SKView?
+    var gameCenterEnabled: Bool = false
+    var gcDefaultLeaderBoard = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,10 +40,37 @@ class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDel
         
         skView = self.view as? SKView
         skView!.ignoresSiblingOrder = true
+        authenticateLocalPlayer()
         settingAd()
         goGame()
     }
 
+    func authenticateLocalPlayer() {
+        let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
+        
+        localPlayer.authenticateHandler = {(ViewController, error) -> Void in
+            if((ViewController) != nil) {
+                self.presentViewController(ViewController, animated: true, completion: nil)
+            } else if (localPlayer.authenticated) {
+                println("Local player already authenticated")
+                self.gameCenterEnabled = true
+                
+                // Get the default leaderboard ID
+                localPlayer.loadDefaultLeaderboardIdentifierWithCompletionHandler({ (leaderboardIdentifer: String!, error: NSError!) -> Void in
+                    if error != nil {
+                        println(error)
+                    } else {
+                        self.gcDefaultLeaderBoard = leaderboardIdentifer
+                    }
+                })
+            } else {
+                self.gameCenterEnabled = false
+                println("Local player could not be authenticated, disabling game center")
+                println(error)
+            }
+        }
+    }
+    
     func settingAd(){
         var origin = CGPointMake(0.0,
             self.view.frame.size.height -
@@ -85,6 +115,11 @@ class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDel
             println("game")
             goGame()
         }
+    }
+    
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!) {
+        
+        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func shouldAutorotate() -> Bool {
