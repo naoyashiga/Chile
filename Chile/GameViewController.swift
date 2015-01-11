@@ -8,7 +8,6 @@
 
 import UIKit
 import SpriteKit
-import Social
 
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
@@ -26,36 +25,46 @@ extension SKNode {
     }
 }
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, SceneEscapeProtocol {
     var chileScene:GameScene?
+    var skView:SKView?
     
-    @IBOutlet weak var bgImage: UIImageView!
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
-            // Configure the view.
-            let skView = self.view as SKView
-//            skView.showsFPS = true
-//            skView.showsNodeCount = true
-            
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
-            skView.ignoresSiblingOrder = true
-            
-            /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .AspectFill
-            
-            chileScene = scene
-            
-            skView.presentScene(scene)
-        }
+        skView = self.view as? SKView
+        skView!.ignoresSiblingOrder = true
+        goGame()
     }
 
     override func shouldAutorotate() -> Bool {
         return true
     }
-
+    
+    func goGame(){
+        var gameScene = GameScene(size: skView!.bounds.size)
+        gameScene.delegate_escape = self
+        gameScene.scaleMode = SKSceneScaleMode.AspectFill
+        self.skView!.presentScene(gameScene)
+    }
+    
+    func goResult(){
+        var resultScene = ResultScene(size: skView!.bounds.size)
+        resultScene.delegate_escape = self
+        resultScene.scaleMode = SKSceneScaleMode.AspectFill
+        self.skView!.presentScene(resultScene)
+    }
+    
+    //デリゲートメソッド
+    func sceneEscape(scene: SKScene) {
+        if scene.isKindOfClass(GameScene) {
+            println("result")
+            goResult()
+        } else if scene.isKindOfClass(ResultScene){
+            println("game")
+            goGame()
+        }
+    }
+    
     override func supportedInterfaceOrientations() -> Int {
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
             return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)

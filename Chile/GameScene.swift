@@ -9,6 +9,7 @@
 import SpriteKit
 
 class GameScene: SKScene {
+    var delegate_escape: SceneEscapeProtocol?
     var isCreated:Bool = true
     var chiles:NSMutableArray!
     var scoreLabel:SKLabelNode!
@@ -87,11 +88,12 @@ class GameScene: SKScene {
                 scoreLabel.text = String(self.children.count)
                 println("out")
                 
-                let transition = SKTransition.revealWithDirection(SKTransitionDirection.Down, duration: 1)
-                let skView:SKView = self.view as SKView!
-                let newScene = ResultScene(size: self.size)
-                newScene.scaleMode = SKSceneScaleMode.AspectFill
-                skView.presentScene(newScene, transition: transition)
+                delegate_escape?.sceneEscape(self)
+//                let transition = SKTransition.revealWithDirection(SKTransitionDirection.Down, duration: 1)
+//                let skView:SKView = self.view as SKView!
+//                let newScene = ResultScene(size: self.size)
+//                newScene.scaleMode = SKSceneScaleMode.AspectFill
+//                skView.presentScene(newScene, transition: transition)
             }
         }
         

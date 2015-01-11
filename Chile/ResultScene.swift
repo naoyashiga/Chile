@@ -10,6 +10,7 @@ import UIKit
 import spriteKit
 
 class ResultScene: SKScene {
+    var delegate_escape: SceneEscapeProtocol?
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor.blackColor()
         
@@ -61,11 +62,12 @@ class ResultScene: SKScene {
             var touchedName = self.nodeAtPoint(location)
             
             if touchedName.name == "retry" {
-                let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 1)
-                let skView:SKView = self.view as SKView!
-                let newScene = GameScene(size: self.size)
-                newScene.scaleMode = SKSceneScaleMode.AspectFill
-                skView.presentScene(newScene, transition: transition)
+                delegate_escape?.sceneEscape(self)
+//                let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 1)
+//                let skView:SKView = self.view as SKView!
+//                let newScene = GameScene(size: self.size)
+//                newScene.scaleMode = SKSceneScaleMode.AspectFill
+//                skView.presentScene(newScene, transition: transition)
             }
         }
         
