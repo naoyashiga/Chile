@@ -3,3 +3,4 @@
 //
 
 #import "GADBannerView.h"
+#import "GADInterstitial.h"

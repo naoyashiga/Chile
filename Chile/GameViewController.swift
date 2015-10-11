@@ -12,7 +12,7 @@ import GameKit
 
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
-        if let path = NSBundle.mainBundle().pathForResource(file, ofType: "sks") {
+        if let path = NSBundle.mainBundle().pathForResource(file as String, ofType: "sks") {
             var sceneData = NSData(contentsOfFile: path, options: .DataReadingMappedIfSafe, error: nil)!
             var archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
             
@@ -26,10 +26,15 @@ extension SKNode {
     }
 }
 
-class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDelegate, GKGameCenterControllerDelegate, GameCenterProtocol{
+class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDelegate,GADInterstitialDelegate,GKGameCenterControllerDelegate, GameCenterProtocol{
     var skView:SKView?
     var gameCenterEnabled: Bool = false
     var gcDefaultLeaderBoard = String()
+    
+    var resultCount:Int = 0
+    var interstitial:GADInterstitial = GADInterstitial()
+    let INTERSTITIAL_ADUNIT_ID = "ca-app-pub-9360978553412745/5495187510"
+    let INTERSTITIAL_COUNT = 5
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +43,9 @@ class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDel
             ud.setObject(0, forKey: "bestScore")
         }
         
+        interstitial.adUnitID = INTERSTITIAL_ADUNIT_ID
+        interstitial.delegate = self
+        interstitial.loadRequest(GADRequest())
         skView = self.view as? SKView
         skView!.ignoresSiblingOrder = true
         authenticateLocalPlayer()
@@ -52,37 +60,37 @@ class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDel
             if((ViewController) != nil) {
                 self.presentViewController(ViewController, animated: true, completion: nil)
             } else if (localPlayer.authenticated) {
-                println("Local player already authenticated")
+                print("Local player already authenticated")
                 self.gameCenterEnabled = true
                 
                 // Get the default leaderboard ID
-                localPlayer.loadDefaultLeaderboardIdentifierWithCompletionHandler({ (leaderboardIdentifer: String!, error: NSError!) -> Void in
+                localPlayer.loadDefaultLeaderboardIdentifierWithCompletionHandler({ (leaderboardIdentifer: String?, error: NSError?) -> Void in
                     if error != nil {
-                        println(error)
+                        print(error)
                     } else {
                         self.gcDefaultLeaderBoard = leaderboardIdentifer
                     }
                 })
             } else {
                 self.gameCenterEnabled = false
-                println("Local player could not be authenticated, disabling game center")
-                println(error)
+                print("Local player could not be authenticated, disabling game center")
+                print(error)
             }
         }
     }
     
     func settingAd(){
-        var origin = CGPointMake(0.0,
+        let origin = CGPointMake(0.0,
             self.view.frame.size.height -
                 CGSizeFromGADAdSize(kGADAdSizeBanner).height); // place at bottom of view
         
-        var size = GADAdSizeFullWidthPortraitWithHeight(50)
-        var adB = GADBannerView(adSize: size, origin: origin)
+        let size = GADAdSizeFullWidthPortraitWithHeight(50)
+        let adB = GADBannerView(adSize: size, origin: origin)
         adB.adUnitID = "ca-app-pub-9360978553412745/9042363511"
         adB.delegate = self
         adB.rootViewController = self
         self.view.addSubview(adB)
-        var request = GADRequest()
+        let request = GADRequest()
         //test
 //        request.testDevices = [ GAD_SIMULATOR_ID ];
         adB.loadRequest(request)
@@ -90,7 +98,7 @@ class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDel
     
     func goGame(){
 //        var transition:SKTransition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 0.5)
-        var gameScene = GameScene(size: skView!.bounds.size)
+        let gameScene = GameScene(size: skView!.bounds.size)
         gameScene.delegate_escape = self
         gameScene.scaleMode = SKSceneScaleMode.AspectFill
 //        self.skView!.presentScene(gameScene, transition: transition)
@@ -99,7 +107,7 @@ class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDel
     
     func goResult(){
 //        var transition:SKTransition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 0.5)
-        var resultScene = ResultScene(size: skView!.bounds.size)
+        let resultScene = ResultScene(size: skView!.bounds.size)
         resultScene.delegate_escape = self
         resultScene.delegate_gameCenter = self
         resultScene.scaleMode = SKSceneScaleMode.AspectFill
@@ -110,45 +118,76 @@ class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDel
     //デリゲートメソッド
     func sceneEscape(scene: SKScene) {
         if scene.isKindOfClass(GameScene) {
-            println("result")
+            print("result")
             goResult()
         } else if scene.isKindOfClass(ResultScene){
-            println("game")
+            print("game")
+            checkInterstitialAd()
             goGame()
         }
     }
     
-    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!) {
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
         
         gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    func checkInterstitialAd(){
+        let ud = NSUserDefaults.standardUserDefaults()
+        
+        if(ud.objectForKey("interstitialAdCounter") == nil){
+            ud.setObject(0, forKey: "interstitialAdCounter")
+            resultCount = 1
+        }else{
+            //2回目以降起動時
+            resultCount = ud.integerForKey("interstitialAdCounter")
+        }
+        
+        
+        if resultCount % INTERSTITIAL_COUNT == 0{
+            if(interstitial.isReady){
+                interstitial.presentFromRootViewController(self)
+            }
+            
+            //次の広告の準備
+            interstitial = GADInterstitial()
+            interstitial.adUnitID = INTERSTITIAL_ADUNIT_ID
+            interstitial.delegate = self
+            interstitial.loadRequest(GADRequest())
+        }
+        
+        print(resultCount)
+        //カウントアップ
+        resultCount = resultCount + 1
+        ud.setObject(resultCount, forKey: "interstitialAdCounter")
+    }
+    
     func showLeaderboard(){
-        println("iii")
+        print("iii")
         //スコア送信
         submitScore()
         //スコア表示
-        var gcVC: GKGameCenterViewController = GKGameCenterViewController()
+        let gcVC: GKGameCenterViewController = GKGameCenterViewController()
         gcVC.gameCenterDelegate = self
         gcVC.viewState = GKGameCenterViewControllerState.Leaderboards
-        gcVC.leaderboardIdentifier = "ChileScore"
+        gcVC.leaderboardIdentifier = "chileScore"
         self.presentViewController(gcVC, animated: true, completion: nil)
     }
     
     func submitScore(){
         let ud = NSUserDefaults.standardUserDefaults()
-        var leaderboardID = "ChileScore"
+        var leaderboardID = "chileScore"
         var sScore = GKScore(leaderboardIdentifier: leaderboardID)
         var currentScore = ud.integerForKey("currentScore")
         sScore.value = Int64(currentScore)
         
         let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
         
-        GKScore.reportScores([sScore], withCompletionHandler: { (error: NSError!) -> Void in
+        GKScore.reportScores([sScore], withCompletionHandler: { (error: NSError?) -> Void in
             if error != nil {
-                println(error.localizedDescription)
+                print(error.localizedDescription)
             } else {
-                println("Score submitted")
+                print("Score submitted")
                 
             }
         })
@@ -158,11 +197,11 @@ class GameViewController: UIViewController, SceneEscapeProtocol,GADBannerViewDel
         return true
     }
     
-    override func supportedInterfaceOrientations() -> Int {
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
+            return UIInterfaceOrientationMask.AllButUpsideDown
         } else {
-            return Int(UIInterfaceOrientationMask.All.rawValue)
+            return UIInterfaceOrientationMask.All
         }
     }
 

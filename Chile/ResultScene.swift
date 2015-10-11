@@ -17,6 +17,7 @@ class ResultScene: SKScene {
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor.blackColor()
         
+        
         addScore()
         addBestScore()
         addRetry()
@@ -25,7 +26,7 @@ class ResultScene: SKScene {
     
     func addScore(){
         let ud = NSUserDefaults.standardUserDefaults()
-        var resultLabel = SKLabelNode()
+        let resultLabel = SKLabelNode()
         
         resultLabel.text = String(ud.integerForKey("currentScore"))
         resultLabel.fontSize = 100
@@ -38,7 +39,7 @@ class ResultScene: SKScene {
     
     func addBestScore(){
         let ud = NSUserDefaults.standardUserDefaults()
-        var bestScoreLabel = SKLabelNode()
+        let bestScoreLabel = SKLabelNode()
         
         bestScoreLabel.text = "Best:" + String(ud.integerForKey("bestScore"))
         bestScoreLabel.fontSize = 30
@@ -49,7 +50,7 @@ class ResultScene: SKScene {
         self.addChild(bestScoreLabel)
     }
     func addRetry(){
-        var retryLabel = SKLabelNode()
+        let retryLabel = SKLabelNode()
         
         retryLabel.text = "Retry"
         retryLabel.fontSize = 60
@@ -62,7 +63,7 @@ class ResultScene: SKScene {
     }
     
     func addRanking(){
-        var rankingLabel = SKLabelNode()
+        let rankingLabel = SKLabelNode()
         
         rankingLabel.text = "Ranking"
         rankingLabel.fontSize = 60
@@ -78,13 +79,13 @@ class ResultScene: SKScene {
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
-            var location = touch.locationInNode(self)
-            var touchedName = self.nodeAtPoint(location)
+            let location = touch.locationInNode(self)
+            let touchedName = self.nodeAtPoint(location)
             
             if touchedName.name == "retry" {
                 delegate_escape?.sceneEscape(self)
             }else if touchedName.name == "ranking" {
-                println("ggg")
+                print("ggg")
                 //ランキング表示
                 delegate_gameCenter?.showLeaderboard()
             }

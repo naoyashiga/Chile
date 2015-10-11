@@ -51,7 +51,7 @@ class GameScene: SKScene {
     }
     
     func addGround(){
-        var ground = SKSpriteNode(
+        let ground = SKSpriteNode(
             color: UIColor.greenColor(),
             size: CGSizeMake(200, 50)
         )
@@ -65,7 +65,7 @@ class GameScene: SKScene {
     }
     
     func addChile(pos:CGPoint) -> Chile{
-        var chile = Chile()
+        let chile = Chile()
         chile.position = CGPoint(x: pos.x, y: pos.y)
         self.addChild(chile)
         
@@ -76,8 +76,8 @@ class GameScene: SKScene {
         for child in self.children {
             //画面外
             if child.frame.midY < 0 {
-                println("out")
-                var chileCount = self.children.count - 2
+                print("out")
+                let chileCount = self.children.count - 2
                 let ud = NSUserDefaults.standardUserDefaults()
                 
                 child.removeFromParent()
@@ -97,18 +97,18 @@ class GameScene: SKScene {
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        println("start")
-        println(self.children.count)
+        print("start")
+        print(self.children.count)
         
         for touch: AnyObject in touches {
-            var location = touch.locationInNode(self)
+            let location = touch.locationInNode(self)
             
             chiles.addObject(self.addChile(location))
         }
     }
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
-        var chile = chiles.lastObject as Chile
+        var chile = chiles.lastObject as! Chile
         
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
@@ -117,23 +117,23 @@ class GameScene: SKScene {
     }
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-        println("end")
+        print("end")
         for chile:AnyObject in chiles {
-            var c = chile as Chile
+            var c = chile as! Chile
             c.physicsBody = SKPhysicsBody(rectangleOfSize: chile.size)
         }
         scoreLabel.text = String(self.children.count - 2)
     }
     
     func tapGesture(sender: UITapGestureRecognizer){
-        println("tap")
+        print("tap")
 //        var tapPositionOneFingerTap = sender.locationInView(self.view)
         
         //ビュー座標からシーン座標に変換
 //        tapPositionOneFingerTap = convertPointFromView(tapPositionOneFingerTap)
 //        addChile(tapPositionOneFingerTap)
         for chile:AnyObject in chiles {
-            var c = chile as Chile
+            var c = chile as! Chile
             c.physicsBody = SKPhysicsBody(rectangleOfSize: chile.size)
             
         }
